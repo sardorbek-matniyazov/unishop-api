@@ -62,4 +62,23 @@ public class Product {
     @Column(nullable = false, updatable = false)
     private UUID createdBy;
 
+    public Product(
+            String name,
+            String description,
+            String brand,
+            Integer quantity,
+            Double price,
+            Double wholesalePrice,
+            Double minimumPrice,
+            Double maximumPrice) {
+        this.name = name;
+        this.description = description;
+        this.brand = brand;
+        this.quantity = quantity;
+        this.price = price;
+        this.wholesalePrice = wholesalePrice;
+        this.minimumPrice = minimumPrice;
+        this.maximumPrice = maximumPrice;
+
+    }
 }

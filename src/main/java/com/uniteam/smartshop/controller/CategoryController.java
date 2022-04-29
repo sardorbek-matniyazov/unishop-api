@@ -28,9 +28,9 @@ public class CategoryController {
 
     @GetMapping(value = "/{id}")
     public HttpEntity<?> get(@PathVariable Integer id){
-        Category category = service.get(id);
-        return category != null ?
-                ResponseEntity.ok(category) :
+        Category item = service.get(id);
+        return item != null ?
+                ResponseEntity.ok(item) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 

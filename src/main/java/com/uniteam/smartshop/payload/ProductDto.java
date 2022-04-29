@@ -1,5 +1,7 @@
 package com.uniteam.smartshop.payload;
 
+import com.uniteam.smartshop.domain.Input;
+import com.uniteam.smartshop.domain.Product;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -24,4 +26,31 @@ public class ProductDto {
     private Double maximumPrice;
     @NotNull(message = "Product category is required")
     private Integer categoryId;
+
+    public Product toEntity() {
+        return new Product(
+                this.name,
+                this.description,
+                this.brand,
+                this.quantity,
+                this.price,
+                this.wholesalePrice,
+                this.minimumPrice,
+                this.maximumPrice
+        );
+    }
+
+    public Input toInput(Product product) {
+        return new Input(
+                product,
+                this.name,
+                this.description,
+                this.brand,
+                this.quantity,
+                this.price,
+                this.wholesalePrice,
+                this.minimumPrice,
+                this.maximumPrice
+        );
+    }
 }

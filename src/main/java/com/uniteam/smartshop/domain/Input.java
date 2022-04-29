@@ -24,7 +24,7 @@ public class Input {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private Product product;
 
     private String productName;
@@ -34,7 +34,11 @@ public class Input {
     @Column(nullable = false)
     private String brand;
 
+    @Column(nullable = false)
     private Integer quantity;
+
+    @Column(nullable = false)
+    private Double price;
 
     @Column(nullable = false)
     private Double wholesalePrice;
@@ -55,4 +59,26 @@ public class Input {
     @CreatedBy
     @Column(nullable = false, updatable = false)
     private UUID createdBy;
+
+    public Input(
+            Product product,
+            String name,
+            String description,
+            String brand,
+            Integer quantity,
+            Double price,
+            Double wholesalePrice,
+            Double minimumPrice,
+            Double maximumPrice
+    ) {
+        this.product = product;
+        this.productName = name;
+        this.description = description;
+        this.brand = brand;
+        this.quantity = quantity;
+        this.price = price;
+        this.wholesalePrice = wholesalePrice;
+        this.minimumPrice = minimumPrice;
+        this.maximumPrice = maximumPrice;
+    }
 }

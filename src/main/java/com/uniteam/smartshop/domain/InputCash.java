@@ -30,6 +30,8 @@ public class InputCash {
     private boolean byCard;
     private boolean byCash;
 
+    private String comment;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private Date createdDate;
@@ -37,4 +39,11 @@ public class InputCash {
     @CreatedBy
     @Column(nullable = false, updatable = false)
     private UUID createdBy;
+
+    public InputCash(Client client, Double cashAmount, Double cardAmount, String comment) {
+        this.client = client;
+        this.cashAmount = cashAmount;
+        this.cardAmount = cardAmount;
+        this.comment = comment;
+    }
 }

@@ -53,4 +53,64 @@ public class Client {
     @CreatedBy
     @Column(nullable = false, updatable = false)
     private UUID createdBy;
+
+    public Client(
+            String fullName,
+            String phoneNumber,
+            ClientType legal,
+            Long inn,
+            String comment,
+            Double balance) {
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.type = legal;
+        this.inn = inn;
+        this.comment = comment;
+        this.balance = balance;
+    }
+
+    public Client(
+            String fullName,
+            String phoneNumber,
+            ClientType individual,
+            String comment,
+            double balance) {
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.type = individual;
+        this.comment = comment;
+        this.balance = balance;
+    }
+
+    public Client(
+            UUID id,
+            String fullName,
+            String phoneNumber,
+            ClientType legal,
+            Long inn,
+            String comment,
+            double balance) {
+        this.id = id;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.type = legal;
+        this.inn = inn;
+        this.comment = comment;
+        this.balance = balance;
+    }
+
+    public Client(
+            UUID id,
+            String fullName,
+            String phoneNumber,
+            ClientType individual,
+            String comment,
+            double balance) {
+        this.id = id;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.type = individual;
+        this.comment = comment;
+        this.balance = balance;
+    }
 }

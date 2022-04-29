@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
             return Status.CATEGORY_ALREADY_EXISTS;
         Category save = repo.save(dto);
         Status successSaved = Status.SUCCESS_SAVED;
-        successSaved.setAny(save);
+        successSaved.setBody(save);
         return successSaved;
     }
 
