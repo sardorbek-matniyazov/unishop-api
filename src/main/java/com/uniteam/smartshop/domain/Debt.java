@@ -45,4 +45,11 @@ public class Debt {
     @CreatedBy
     @Column(nullable = false, updatable = false)
     private UUID createdBy;
+
+    public Debt(Client client, Double costDebt, Date expiredDate, Output output) {
+        this.client = client;
+        this.amount = costDebt;
+        this.expiredDate = expiredDate;
+        this.output = output;
+    }
 }

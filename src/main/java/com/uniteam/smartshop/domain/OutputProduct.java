@@ -29,4 +29,10 @@ public class OutputProduct {
     private Integer quantity;
 
     private Double cost;
+
+    public OutputProduct(Product byId, Double cost, Integer quantity) {
+        this.product = byId;
+        this.cost = cost;
+        this.quantity = quantity;
+    }
 }

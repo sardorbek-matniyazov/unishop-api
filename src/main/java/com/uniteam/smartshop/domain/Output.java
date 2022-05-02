@@ -30,7 +30,7 @@ public class Output {
     private Set<OutputProduct> products;
 
     @OneToOne(mappedBy = "output", cascade = CascadeType.ALL)
-    private Profit profits;
+    private Debt debt;
 
     private Double costCash;
     private Double costCard;
@@ -38,7 +38,7 @@ public class Output {
 
     private boolean byCard;
     private boolean byCash;
-    private boolean by;
+    private boolean byDebt;
 
     private String comment;
 

@@ -25,7 +25,7 @@ public class Profit {
     private double amount;
 
     @OneToOne(optional = false)
-    private Output output;
+    private OutputProduct product;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -37,4 +37,9 @@ public class Profit {
     @CreatedBy
     @Column(nullable = false, updatable = false)
     private UUID createdBy;
+
+    public Profit(OutputProduct outputProduct, double amount) {
+        this.product = outputProduct;
+        this.amount = amount;
+    }
 }
