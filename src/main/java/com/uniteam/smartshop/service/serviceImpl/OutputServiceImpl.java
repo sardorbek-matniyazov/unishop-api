@@ -1,12 +1,15 @@
 package com.uniteam.smartshop.service.serviceImpl;
 
 import com.uniteam.smartshop.domain.*;
+import com.uniteam.smartshop.domain.enums.PaymentStatus;
+import com.uniteam.smartshop.domain.enums.PaymentType;
 import com.uniteam.smartshop.payload.OutProducts;
 import com.uniteam.smartshop.payload.OutputDto;
 import com.uniteam.smartshop.payload.Status;
 import com.uniteam.smartshop.repository.*;
 import com.uniteam.smartshop.service.OutputService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,14 +17,14 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OutputServiceImpl implements OutputService {
 
     private final OutputRepo repo;
     private final ClientRepo clientRepo;
     private final OutProductsRepo outProductsRepo;
     private final ProductRepo productRepo;
-    private final ProfitRepo profitRepo;
-    private final DebtRepo debtRepo;
+    private final PaymentHistoryRepo paymentHistoryRepo;
 
     @Override
     public Status getAll() {
@@ -50,28 +53,32 @@ public class OutputServiceImpl implements OutputService {
             output.setClient(client);
             Set<OutputProduct> outputProducts = setProducts(dto.getProducts());
             output.setProducts(outputProducts);
-            if (dto.getCostCard() != null) {
-                output.setCostCash(dto.getCostCard());
-                output.setByCard(true);
+            if (dto.getCostDebt() != 0){
+                output.setStatus(PaymentStatus.DEBT);
+                output.setExpiredDate(dto.getExpiredDate());
+            }else {
+                output.setStatus(PaymentStatus.PAID);
             }
-            if (dto.getCostCash() != null) {
-                output.setCostCard(dto.getCostCash());
-                output.setByCash(true);
-            }
-            if (dto.getCostDebt() < 0) {
-                output.setByDebt(true);
-                output.setDebt(
-                        debtRepo.save(
-                                new Debt(
-                                        client,
-                                        (-1) * dto.getCostDebt(),
-                                        dto.getExpiredDate(),
-                                        output
-                                )
+            output = repo.save(output);
+
+            if (dto.getCostCard() != 0) {
+                paymentHistoryRepo.save(
+                        new PaymentHistory(
+                                dto.getCostCard(),
+                                PaymentType.CARD,
+                                output
                         )
                 );
             }
-            repo.save(output);
+            if (dto.getCostCash() != 0) {
+                paymentHistoryRepo.save(
+                        new PaymentHistory(
+                                dto.getCostCash(),
+                                PaymentType.CASH,
+                                output
+                        )
+                );
+            }
         }
         return Status.CLIENT_NOT_FOUND;
     }
@@ -81,26 +88,20 @@ public class OutputServiceImpl implements OutputService {
 
         products.forEach(product -> {
             try {
-                Integer quantity = product.getQuantity();
                 Product realProduct = productRepo.getById(product.getProductId());
-
-                Profit profit = profitRepo.save(
-                        new Profit(
-                                outProductsRepo.save(
-                                        new OutputProduct(
-                                                realProduct,
-                                                product.getCost(),
-                                                quantity
-                                        )
-                                ),
-                                realProduct.getPrice() - product.getCost()
-                        )
-                );
 
                 realProduct.setQuantity(realProduct.getQuantity() - product.getQuantity());
                 productRepo.save(realProduct);
 
-                outputProducts.add(profit.getProduct());
+                outputProducts.add(outProductsRepo.save(
+                        new OutputProduct(
+                                realProduct,
+                                product.getCost(),
+                                product.getQuantity(),
+                                product.getCost() - realProduct.getPrice()
+                        )
+                ));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

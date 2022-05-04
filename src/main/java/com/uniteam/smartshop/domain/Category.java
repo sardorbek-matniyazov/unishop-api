@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
@@ -15,18 +16,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "Category name is required")
     @Column(nullable = false, unique = true)
     private String name;
-
-    @Column(nullable = false)
-    private Double wholesalePercent;
-
-    @Column(nullable = false)
-    private Double minimumPercent;
-
-    @Column(nullable = false)
-    private Double maximumPercent;
-
-    @Column(nullable = false)
-    private Double minimumAmount;
 }

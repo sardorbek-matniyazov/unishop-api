@@ -28,11 +28,15 @@ public class OutputProduct {
 
     private Integer quantity;
 
+    @Column(nullable = false)
     private Double cost;
 
-    public OutputProduct(Product byId, Double cost, Integer quantity) {
+    private Double profitCost;
+
+    public OutputProduct(Product byId, Double cost, Integer quantity, double profitCost) {
         this.product = byId;
         this.cost = cost;
         this.quantity = quantity;
+        this.profitCost = profitCost;
     }
 }

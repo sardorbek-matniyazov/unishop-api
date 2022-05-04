@@ -31,6 +31,8 @@ public class ClientServiceImpl implements ClientService {
     public Status create(ClientDto dto) {
         if (repo.existsByFullName(dto.getFullName()))
             return Status.CLIENT_ALREADY_EXIST;
+        if (repo.existsByPhoneNumber(dto.getPhoneNumber()))
+            return Status.PHONE_NUMBER_TAKEN;
         Client client = dto.toEntity();
         Client save = repo.save(client);
         Status successSaved = Status.SUCCESS_SAVED;
@@ -42,6 +44,8 @@ public class ClientServiceImpl implements ClientService {
     public Status update(UUID id, ClientDto dto) {
         if (repo.existsByFullNameAndIdNot(dto.getFullName(), id))
             return Status.CLIENT_ALREADY_EXIST;
+        if (repo.existsByPhoneNumberAndIdNot(dto.getPhoneNumber(), id))
+            return Status.PHONE_NUMBER_TAKEN;
         Client client = dto.toEntity(id);
         Client update = repo.save(client);
         Status successUpdate = Status.SUCCESS_UPDATE;

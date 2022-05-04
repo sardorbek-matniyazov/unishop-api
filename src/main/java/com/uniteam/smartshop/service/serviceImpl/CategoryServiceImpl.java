@@ -20,9 +20,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category get(Integer id) {
+    public Status get(Integer id) {
         Optional<Category> byId = repo.findById(id);
-        return byId.orElse(null);
+        if (byId.isPresent()){
+            Status dataEntity = Status.DATA_ENTITY;
+            dataEntity.setBody(byId.get());
+            return dataEntity;
+        }
+        return Status.ITEM_NOT_FOUND;
     }
 
     @Override

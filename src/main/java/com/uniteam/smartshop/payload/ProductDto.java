@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 public class ProductDto {
     @NotBlank(message = "Product name is required")
     private String name;
+    @NotBlank(message = "Product description is required")
     private String description;
     @NotBlank(message = "Product brand is required")
     private String brand;
@@ -18,8 +19,6 @@ public class ProductDto {
     private Integer quantity;
     @NotNull(message = "Product price is required")
     private Double price;
-    @NotNull(message = "Product wholesalePrice is required")
-    private Double wholesalePrice;
     @NotNull(message = "Product minimumPrice is required")
     private Double minimumPrice;
     @NotNull(message = "Product maximumPrice is required")
@@ -34,7 +33,6 @@ public class ProductDto {
                 this.brand,
                 this.quantity,
                 this.price,
-                this.wholesalePrice,
                 this.minimumPrice,
                 this.maximumPrice
         );
@@ -43,14 +41,7 @@ public class ProductDto {
     public Input toInput(Product product) {
         return new Input(
                 product,
-                this.name,
-                this.description,
-                this.brand,
-                this.quantity,
-                this.price,
-                this.wholesalePrice,
-                this.minimumPrice,
-                this.maximumPrice
+                this.quantity
         );
     }
 }

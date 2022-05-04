@@ -9,4 +9,8 @@ public interface ClientRepo extends JpaRepository<Client, UUID> {
     boolean existsByFullName(String fullName);
 
     boolean existsByFullNameAndIdNot(String fullName, UUID id);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    boolean existsByPhoneNumberAndIdNot(String phoneNumber, UUID id);
 }

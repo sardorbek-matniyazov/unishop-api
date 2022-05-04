@@ -1,15 +1,16 @@
 package com.uniteam.smartshop.domain;
 
+import com.uniteam.smartshop.domain.enums.PaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
@@ -17,29 +18,33 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Profit {
+public class PaymentHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double amount;
+    @Column(nullable = false)
+    private Double amount;
 
-    @OneToOne(optional = false)
-    private OutputProduct product;
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentType type;
+
+    @ManyToOne
+    private Output output;
 
     @CreatedDate
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private Date createdDate;
-
-    @LastModifiedDate
-    private Date updatedDate;
+    private Timestamp createdDate;
 
     @CreatedBy
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private UUID createdBy;
 
-    public Profit(OutputProduct outputProduct, double amount) {
-        this.product = outputProduct;
-        this.amount = amount;
+    public PaymentHistory(Double costCard, PaymentType card, Output output) {
+        this.amount = costCard;
+        type = card;
+        this.output = output;
     }
 }

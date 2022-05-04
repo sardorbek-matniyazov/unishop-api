@@ -1,8 +1,11 @@
 package com.uniteam.smartshop.domain;
 
+import com.uniteam.smartshop.domain.enums.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -29,27 +32,26 @@ public class Output {
     @OneToMany(mappedBy = "output", cascade = CascadeType.ALL)
     private Set<OutputProduct> products;
 
-    @OneToOne(mappedBy = "output", cascade = CascadeType.ALL)
-    private Debt debt;
+    @OneToMany(mappedBy = "output", cascade = CascadeType.REMOVE)
+    private Set<PaymentHistory> paymentHistories;
 
-    private Double costCash;
-    private Double costCard;
+    @Enumerated(value = EnumType.STRING)
+    private PaymentStatus status;
+
     private Date expiredDate;
-
-    private boolean byCard;
-    private boolean byCash;
-    private boolean byDebt;
 
     private String comment;
 
     @CreatedDate
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Date createdDate;
 
     @LastModifiedDate
+    @UpdateTimestamp
     private Date updatedDate;
 
     @CreatedBy
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private UUID createdBy;
 }

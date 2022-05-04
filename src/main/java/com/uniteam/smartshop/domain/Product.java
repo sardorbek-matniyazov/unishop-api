@@ -3,6 +3,8 @@ package com.uniteam.smartshop.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -38,9 +40,6 @@ public class Product {
     private Double price;
 
     @Column(nullable = false)
-    private Double wholesalePrice;
-
-    @Column(nullable = false)
     private Double minimumPrice;
 
     @Column(nullable = false)
@@ -52,14 +51,16 @@ public class Product {
     private boolean active = true;
 
     @CreatedDate
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Date createdDate;
 
     @LastModifiedDate
+    @UpdateTimestamp
     private Date updatedDate;
 
     @CreatedBy
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private UUID createdBy;
 
     public Product(
@@ -68,7 +69,6 @@ public class Product {
             String brand,
             Integer quantity,
             Double price,
-            Double wholesalePrice,
             Double minimumPrice,
             Double maximumPrice) {
         this.name = name;
@@ -76,7 +76,6 @@ public class Product {
         this.brand = brand;
         this.quantity = quantity;
         this.price = price;
-        this.wholesalePrice = wholesalePrice;
         this.minimumPrice = minimumPrice;
         this.maximumPrice = maximumPrice;
 

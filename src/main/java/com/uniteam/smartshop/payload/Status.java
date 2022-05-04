@@ -18,6 +18,9 @@ public class Status {
     public static final Status DATA_ENTITY = new Status("The items found", true, 200);
     public static final Status ITEM_NOT_FOUND = new Status("Item hasn't found", false, HttpStatus.NOT_FOUND.value(), null);
     public static final Status CLIENT_NOT_FOUND = new Status("Client hasn't found", false, HttpStatus.NOT_FOUND.value(), null);;
+    public static final Status CATEGORY_NOT_FOUND = new Status("Category not found", false, HttpStatus.BAD_REQUEST.value());
+    public static final Status PHONE_NUMBER_TAKEN = new Status("this phone number has already taken", false, HttpStatus.BAD_REQUEST.value());
+
 
     private String message;
     private boolean active;

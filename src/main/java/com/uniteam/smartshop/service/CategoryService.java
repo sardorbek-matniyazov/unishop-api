@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CategoryService {
     List<Category> getAll();
-    Category get(Integer id);
+    Status get(Integer id);
     Status create(Category dto);
     Status update(Integer id, Category dto);
     Status delete(Integer id);

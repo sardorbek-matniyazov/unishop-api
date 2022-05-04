@@ -4,6 +4,8 @@ import com.uniteam.smartshop.domain.enums.ClientType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -29,9 +31,6 @@ public class Client {
     @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(nullable = false)
-    private Double balance;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ClientType type;
@@ -41,17 +40,17 @@ public class Client {
     @Column(nullable = false, length = 10000)
     private String comment;
 
-    private boolean blocked = false;
-
     @CreatedDate
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private Date createdDate;
 
     @LastModifiedDate
+    @UpdateTimestamp
     private Date updatedDate;
 
     @CreatedBy
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     private UUID createdBy;
 
     public Client(
@@ -59,27 +58,23 @@ public class Client {
             String phoneNumber,
             ClientType legal,
             Long inn,
-            String comment,
-            Double balance) {
+            String comment) {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.type = legal;
         this.inn = inn;
         this.comment = comment;
-        this.balance = balance;
     }
 
     public Client(
             String fullName,
             String phoneNumber,
             ClientType individual,
-            String comment,
-            double balance) {
+            String comment) {
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.type = individual;
         this.comment = comment;
-        this.balance = balance;
     }
 
     public Client(
@@ -88,15 +83,13 @@ public class Client {
             String phoneNumber,
             ClientType legal,
             Long inn,
-            String comment,
-            double balance) {
+            String comment) {
         this.id = id;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.type = legal;
         this.inn = inn;
         this.comment = comment;
-        this.balance = balance;
     }
 
     public Client(
@@ -104,13 +97,11 @@ public class Client {
             String fullName,
             String phoneNumber,
             ClientType individual,
-            String comment,
-            double balance) {
+            String comment) {
         this.id = id;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.type = individual;
         this.comment = comment;
-        this.balance = balance;
     }
 }

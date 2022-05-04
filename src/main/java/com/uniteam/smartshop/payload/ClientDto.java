@@ -17,19 +17,19 @@ public class ClientDto {
     @NotBlank(message = "Client phone number is required")
     private String phoneNumber;
     @NotNull(message = "Client type is required")
-    private short personalType;
+    private byte personalType;
     private Long inn;
     @NotBlank(message = "comment is required")
     private String comment;
 
     public Client toEntity(){
         return personalType == 1
-                ? new Client(fullName, phoneNumber, ClientType.LEGAL, inn, comment, 0.0)
-                : new Client(fullName, phoneNumber, ClientType.INDIVIDUAL, comment, 0.0);
+                ? new Client(fullName, phoneNumber, ClientType.LEGAL, inn, comment)
+                : new Client(fullName, phoneNumber, ClientType.INDIVIDUAL, comment);
     }
     public Client toEntity(UUID id){
         return personalType == 1
-                ? new Client(id, fullName, phoneNumber, ClientType.LEGAL, inn, comment, 0.0)
-                : new Client(id, fullName, phoneNumber, ClientType.INDIVIDUAL, comment, 0.0);
+                ? new Client(id, fullName, phoneNumber, ClientType.LEGAL, inn, comment)
+                : new Client(id, fullName, phoneNumber, ClientType.INDIVIDUAL, comment);
     }
 }
