@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -30,7 +32,8 @@ public class PaymentHistory {
     @Column(nullable = false)
     private PaymentType type;
 
-    @ManyToOne
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @ManyToOne(optional = false)
     private Output output;
 
     @CreatedDate

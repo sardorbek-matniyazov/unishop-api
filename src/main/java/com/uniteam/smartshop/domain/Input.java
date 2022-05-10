@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,6 +27,7 @@ public class Input {
     @GeneratedValue
     private Long id;
 
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonIgnore
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     private Product product;

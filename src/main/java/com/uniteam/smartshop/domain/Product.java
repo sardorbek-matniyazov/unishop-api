@@ -45,10 +45,8 @@ public class Product {
     @Column(nullable = false)
     private Double maximumPrice;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(optional = false)
     private Category category;
-
-    private boolean active = true;
 
     @CreatedDate
     @CreationTimestamp

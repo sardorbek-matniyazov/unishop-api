@@ -22,7 +22,6 @@ public class OutputServiceImpl implements OutputService {
 
     private final OutputRepo repo;
     private final ClientRepo clientRepo;
-    private final OutProductsRepo outProductsRepo;
     private final ProductRepo productRepo;
     private final PaymentHistoryRepo paymentHistoryRepo;
 
@@ -36,11 +35,9 @@ public class OutputServiceImpl implements OutputService {
     @Override
     public Status get(Long id) {
         Optional<Output> byId = repo.findById(id);
-        if (byId.isPresent()) {
             Status dataEntity = Status.DATA_ENTITY;
-            dataEntity.setBody(byId.get());
-        }
-        return Status.ITEM_NOT_FOUND;
+            dataEntity.setBody(byId.orElse(null));
+        return dataEntity;
     }
 
     @Transactional
@@ -51,10 +48,13 @@ public class OutputServiceImpl implements OutputService {
             Client client = byId.get();
             Output output = new Output();
             output.setClient(client);
-            Set<OutputProduct> outputProducts = setProducts(dto.getProducts());
+            Set<OutputProduct> outputProducts = setProducts(dto.getProducts(), output);
+            if (outputProducts.isEmpty())
+                return Status.PRODUCTS_LIST_IS_NULL;
             output.setProducts(outputProducts);
             if (dto.getCostDebt() != 0){
                 output.setStatus(PaymentStatus.DEBT);
+                output.setDebtAmount((-1) * dto.getCostDebt());
                 output.setExpiredDate(dto.getExpiredDate());
             }else {
                 output.setStatus(PaymentStatus.PAID);
@@ -79,12 +79,15 @@ public class OutputServiceImpl implements OutputService {
                         )
                 );
             }
+            Status successSaved = Status.SUCCESS_SAVED;
+            successSaved.setBody(output);
+            return successSaved;
         }
         return Status.CLIENT_NOT_FOUND;
     }
 
-    private Set<OutputProduct> setProducts(List<OutProducts> products) {
-        Set<OutputProduct> outputProducts = new HashSet<>();
+    private Set<OutputProduct> setProducts(List<OutProducts> products, Output output) {
+            Set<OutputProduct> outputProducts = new HashSet<>();
 
         products.forEach(product -> {
             try {
@@ -93,15 +96,15 @@ public class OutputServiceImpl implements OutputService {
                 realProduct.setQuantity(realProduct.getQuantity() - product.getQuantity());
                 productRepo.save(realProduct);
 
-                outputProducts.add(outProductsRepo.save(
+                outputProducts.add(
                         new OutputProduct(
                                 realProduct,
                                 product.getCost(),
                                 product.getQuantity(),
-                                product.getCost() - realProduct.getPrice()
+                                product.getCost() - realProduct.getPrice(),
+                                output
                         )
-                ));
-
+                );
             } catch (Exception e) {
                 e.printStackTrace();
             }
