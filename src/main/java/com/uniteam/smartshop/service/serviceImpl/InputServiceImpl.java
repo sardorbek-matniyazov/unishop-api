@@ -42,7 +42,6 @@ public class InputServiceImpl implements InputService {
             Category category = byCategoryId.get();
             Optional<Product> byName = productRepo.findByName(dto.getName());
             if (byName.isPresent()) {
-
                 Product product = byName.get();
                 product.setQuantity(product.getQuantity() + dto.getQuantity());
                 product.setCategory(category);
