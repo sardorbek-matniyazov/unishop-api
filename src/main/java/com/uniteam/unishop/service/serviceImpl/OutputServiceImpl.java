@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -56,41 +57,46 @@ public class OutputServiceImpl implements OutputService {
             if (dto.getCostDebt() != 0){
                 output.setStatus(PaymentStatus.DEBT);
                 output.setDebtAmount((-1) * dto.getCostDebt());
-                output.setExpiredDate(dto.getExpiredDate());
+                output.setExpiredDate(new Timestamp(dto.getExpiredDate()));
             }else {
                 output.setStatus(PaymentStatus.PAID);
             }
-            output = repo.save(output);
-
-            output.setAmount(outProductsRepo.sumOfAllProductsFromOutput(output.getId()));
-
+            double amount = 0;
+            Set<PaymentHistory> histories = new HashSet<>();
             if (dto.getCostCard() != 0) {
-                paymentHistoryRepo.save(
+                histories.add(
                         new PaymentHistory(
                                 dto.getCostCard(),
                                 PaymentType.CARD,
                                 output
                         )
                 );
+                amount += dto.getCostCard();
             }
             if (dto.getCostCash() != 0) {
-                paymentHistoryRepo.save(
+                histories.add(
                         new PaymentHistory(
                                 dto.getCostCash(),
                                 PaymentType.CASH,
                                 output
                         )
                 );
+                amount += dto.getCostCash();
             }
-            Status successSaved = Status.SUCCESS_SAVED;
-            successSaved.setBody(output);
-            return successSaved;
+            amount += output.getDebtAmount();
+
+            output.setAmount(amount);
+            output.setPaymentHistories(histories);
+
+            output = repo.save(output);
+
+            return Status.setBodyToStatus(Status.SUCCESS_SAVED, output);
         }
         return Status.CLIENT_NOT_FOUND;
     }
 
     private Set<OutputProduct> setProducts(List<OutProducts> products, Output output) {
-            Set<OutputProduct> outputProducts = new HashSet<>();
+        Set<OutputProduct> outputProducts = new HashSet<>();
 
         products.forEach(product -> {
             try {
@@ -104,7 +110,7 @@ public class OutputServiceImpl implements OutputService {
                                 realProduct,
                                 product.getCost(),
                                 product.getQuantity(),
-                                product.getCost() - realProduct.getPrice(),
+                                product.getQuantity() * (product.getCost() - realProduct.getPrice()),
                                 output
                         )
                 );

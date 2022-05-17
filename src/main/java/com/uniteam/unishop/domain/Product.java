@@ -10,7 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -53,24 +53,17 @@ public class Product {
     @CreatedDate
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private Date createdDate;
+    private Timestamp createdDate;
 
     @LastModifiedDate
     @UpdateTimestamp
-    private Date updatedDate;
+    private Timestamp updatedDate;
 
     @CreatedBy
     @Column(updatable = false)
     private UUID createdBy;
 
-    public Product(
-            String name,
-            String description,
-            String brand,
-            Integer quantity,
-            Double price,
-            Double minimumPrice,
-            Double maximumPrice) {
+    public Product(String name, String description, String brand, Integer quantity, Double price, Double minimumPrice, Double maximumPrice) {
         this.name = name;
         this.description = description;
         this.brand = brand;

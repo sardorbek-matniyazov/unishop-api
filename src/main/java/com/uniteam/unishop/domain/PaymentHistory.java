@@ -1,5 +1,6 @@
 package com.uniteam.unishop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uniteam.unishop.domain.enums.PaymentType;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -34,8 +35,9 @@ public class PaymentHistory {
     @Column(nullable = false)
     private PaymentType type;
 
+    @JsonIgnore
     @OnDelete(action = OnDeleteAction.NO_ACTION)
-    @ManyToOne(optional = false)
+    @ManyToOne()
     private Output output;
 
     @CreatedDate

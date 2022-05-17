@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -45,11 +46,11 @@ public class Client implements Serializable {
     @CreatedDate
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private Date createdDate;
+    private Timestamp createdDate;
 
     @LastModifiedDate
     @UpdateTimestamp
-    private Date updatedDate;
+    private Timestamp updatedDate;
 
     @CreatedBy
     @Column(updatable = false)

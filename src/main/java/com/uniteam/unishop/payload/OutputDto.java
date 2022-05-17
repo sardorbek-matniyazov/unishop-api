@@ -3,6 +3,9 @@ package com.uniteam.unishop.payload;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -16,8 +19,9 @@ public class OutputDto {
     private Double costCard;
     @NotNull(message = "cost debt is required")
     private Double costDebt;
-    private Date expiredDate;
+    private Long expiredDate;
     private String comment;
     @NotNull(message = "Products of shopping is required")
     private List<OutProducts> products;
 }
+

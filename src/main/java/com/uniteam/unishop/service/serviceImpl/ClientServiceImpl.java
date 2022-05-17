@@ -70,4 +70,5 @@ public class ClientServiceImpl implements ClientService {
     public List<PaymentHistory> getPaymentHistory(Long id) {
         return paymentHistoryRepo.findAllByOutput_Client_Id(id);
     }
+    
 }

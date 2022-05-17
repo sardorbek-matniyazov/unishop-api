@@ -14,7 +14,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Output implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +40,7 @@ public class Output implements Serializable {
     private Set<OutputProduct> products;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "output", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "output", cascade = CascadeType.ALL)
     private Set<PaymentHistory> paymentHistories;
 
     @Enumerated(value = EnumType.STRING)
@@ -46,24 +48,23 @@ public class Output implements Serializable {
 
     private double debtAmount;
 
-    private Date expiredDate;
+    private Timestamp expiredDate;
 
     private String comment;
 
-    @Transient
+    @Column(nullable = false)
     private double amount;
 
     @CreatedDate
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private Date createdDate;
+    private Timestamp createdDate;
 
     @LastModifiedDate
     @UpdateTimestamp
-    private Date updatedDate;
+    private Timestamp updatedDate;
 
     @CreatedBy
     @Column(updatable = false)
     private UUID createdBy;
-
 }
