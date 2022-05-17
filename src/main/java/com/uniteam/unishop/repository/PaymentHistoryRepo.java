@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PaymentHistoryRepo extends JpaRepository<PaymentHistory, Long> {
     List<PaymentHistory> findAllByOutput_Client_Id(Long id);
+
+    List<PaymentHistory> findAllByOutput_Id(Long id);
 }

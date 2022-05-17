@@ -32,6 +32,16 @@ public class OutputController {
         return ResponseEntity.status(item.getStatus()).body(item);
     }
 
+    @GetMapping(value = "/{id}/products")
+    public HttpEntity<?> getProducts(@PathVariable Long id){
+        return ResponseEntity.ok(service.getProducts(id));
+    }
+
+    @GetMapping(value = "/{id}/payments")
+    public HttpEntity<?> getPayments(@PathVariable Long id){
+        return ResponseEntity.ok(service.getPayments(id));
+    }
+
     @DeleteMapping(value = "/{id}")
     public HttpEntity<?> delete(@PathVariable Long id){
         Status delete = service.delete(id);

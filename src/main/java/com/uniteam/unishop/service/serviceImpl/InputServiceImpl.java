@@ -12,6 +12,7 @@ import com.uniteam.unishop.service.InputService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,10 +23,8 @@ public class InputServiceImpl implements InputService {
     private final CategoryRepo categoryRepo;
 
     @Override
-    public Status getAll() {
-        Status status = Status.DATA_ENTITY;
-        status.setBody(repo.findAll());
-        return status;
+    public List<Input> getAll() {
+        return repo.findAll();
     }
 
     @Override
@@ -64,12 +63,6 @@ public class InputServiceImpl implements InputService {
             return successSaved;
         }
         return Status.CATEGORY_NOT_FOUND;
-    }
-
-    @Override
-    public Status update(Long id, ProductDto dto) {
-        /*TODO: i do make better input update */
-        return null;
     }
 
     @Override

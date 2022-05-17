@@ -10,6 +10,8 @@ public interface CategoryService {
     List<Category> getAll();
     Status get(Integer id);
     Status create(Category dto);
+
     Status update(Integer id, Category dto);
+
     Status delete(Integer id);
 }

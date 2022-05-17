@@ -28,10 +28,8 @@ public class OutputServiceImpl implements OutputService {
     private final OutProductsRepo outProductsRepo;
 
     @Override
-    public Status getAll() {
-        Status dataEntity = Status.DATA_ENTITY;
-        dataEntity.setBody(repo.findAll());
-        return dataEntity;
+    public List<Output> getAll() {
+        return repo.findAll();
     }
 
     @Override
@@ -49,6 +47,7 @@ public class OutputServiceImpl implements OutputService {
         if (byId.isPresent()) {
             Client client = byId.get();
             Output output = new Output();
+            output.setComment(dto.getComment());
             output.setClient(client);
             Set<OutputProduct> outputProducts = setProducts(dto.getProducts(), output);
             if (outputProducts.isEmpty())
@@ -123,13 +122,19 @@ public class OutputServiceImpl implements OutputService {
     }
 
     @Override
-    public Status update(Long id, OutputDto dto) {
+    public Status delete(Long id) {
+        // TODO: i do make better
         return null;
     }
 
     @Override
-    public Status delete(Long id) {
-        return null;
+    public List<OutputProduct> getProducts(Long id) {
+        return outProductsRepo.findAllByOutput_Id(id);
+    }
+
+    @Override
+    public List<PaymentHistory> getPayments(Long id) {
+        return paymentHistoryRepo.findAllByOutput_Id(id);
     }
 }
 // May 2 20:45 Matniyazov Sardor
