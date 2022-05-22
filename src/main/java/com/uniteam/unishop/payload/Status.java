@@ -21,6 +21,9 @@ public class Status {
     public static final Status CATEGORY_NOT_FOUND = new Status("Category not found", false, HttpStatus.BAD_REQUEST.value());
     public static final Status PHONE_NUMBER_TAKEN = new Status("this phone number has already taken", false, HttpStatus.BAD_REQUEST.value());
     public static final Status PRODUCTS_LIST_IS_NULL = new Status("the products list is null", false, HttpStatus.BAD_REQUEST.value());
+    public static final Status PAYMENT_NOT_FOUNT = new Status("current Payment payment hasn't found", false, HttpStatus.NOT_FOUND.value());
+    public static final Status PAYMENT_CASH_IS_NULL = new Status("Cash amounts are null please fill it", false, HttpStatus.BAD_REQUEST.value());
+    public static final Status SUCCESS_PAID = new Status("payment successfully paid", true, HttpStatus.OK.value());
 
 
     private String message;
