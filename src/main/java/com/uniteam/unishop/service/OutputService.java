@@ -6,6 +6,7 @@ import com.uniteam.unishop.domain.PaymentHistory;
 import com.uniteam.unishop.payload.OutputDto;
 import com.uniteam.unishop.payload.Status;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface OutputService {
@@ -17,4 +18,6 @@ public interface OutputService {
     List<OutputProduct> getProducts(Long id);
 
     List<PaymentHistory> getPayments(Long id);
+
+    List<Output> getByDate(Timestamp open, Timestamp exit);
 }

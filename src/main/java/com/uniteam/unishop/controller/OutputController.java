@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import static com.uniteam.unishop.controller.CategoryController.handleValidationExceptions;
@@ -52,6 +53,11 @@ public class OutputController {
     public HttpEntity<?> create(@Valid @RequestBody OutputDto dto){
         Status create = service.create(dto);
         return ResponseEntity.status(create.getStatus()).body(create);
+    }
+
+    @GetMapping(value = "/byDate")
+    public HttpEntity<?> getOutputsByOpenAndExitDate(@RequestParam(value = "open") Timestamp open, @RequestParam(value = "exit") Timestamp exit){
+        return ResponseEntity.ok(service.getByDate(open, exit));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

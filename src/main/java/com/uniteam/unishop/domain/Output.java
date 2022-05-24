@@ -66,4 +66,20 @@ public class Output implements Serializable {
     @CreatedBy
     @Column(updatable = false)
     private UUID createdBy;
+
+    @Override
+    public String toString() {
+        return "Output{" +
+                "id=" + id +
+                ", client=" + client +
+                ", status=" + status +
+                ", debtAmount=" + debtAmount +
+                ", expiredDate=" + expiredDate +
+                ", comment='" + comment + '\'' +
+                ", amount=" + amount +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", createdBy=" + createdBy +
+                '}';
+    }
 }

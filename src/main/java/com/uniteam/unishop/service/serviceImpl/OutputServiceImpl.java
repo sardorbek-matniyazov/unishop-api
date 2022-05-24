@@ -136,5 +136,10 @@ public class OutputServiceImpl implements OutputService {
     public List<PaymentHistory> getPayments(Long id) {
         return paymentHistoryRepo.findAllByOutput_Id(id);
     }
+
+    @Override
+    public List<Output> getByDate(Timestamp open, Timestamp exit) {
+        return repo.findAllByOpenInAndExit(open, exit);
+    }
 }
 // May 2 20:45 Matniyazov Sardor
