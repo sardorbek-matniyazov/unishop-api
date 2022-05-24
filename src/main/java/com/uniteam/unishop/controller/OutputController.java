@@ -56,7 +56,7 @@ public class OutputController {
     }
 
     @GetMapping(value = "/byDate")
-    public HttpEntity<?> getOutputsByOpenAndExitDate(@RequestParam(value = "open") Timestamp open, @RequestParam(value = "exit") Timestamp exit){
+    public HttpEntity<?> getOutputsByOpenAndExitDate(@RequestParam(value = "from") Long open, @RequestParam(value = "to") Long exit){
         return ResponseEntity.ok(service.getByDate(open, exit));
     }
 

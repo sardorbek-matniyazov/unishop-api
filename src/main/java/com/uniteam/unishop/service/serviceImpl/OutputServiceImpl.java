@@ -138,8 +138,8 @@ public class OutputServiceImpl implements OutputService {
     }
 
     @Override
-    public List<Output> getByDate(Timestamp open, Timestamp exit) {
-        return repo.findAllByOpenInAndExit(open, exit);
+    public List<Output> getByDate(Long open, Long exit) {
+        return repo.findAllByOpenInAndExit(new Timestamp(open), new Timestamp(exit));
     }
 }
 // May 2 20:45 Matniyazov Sardor

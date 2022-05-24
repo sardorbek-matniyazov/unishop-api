@@ -19,5 +19,5 @@ public interface OutputService {
 
     List<PaymentHistory> getPayments(Long id);
 
-    List<Output> getByDate(Timestamp open, Timestamp exit);
+    List<Output> getByDate(Long open, Long exit);
 }
