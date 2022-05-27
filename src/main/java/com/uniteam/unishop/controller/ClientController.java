@@ -62,4 +62,10 @@ public class ClientController {
         return ResponseEntity.ok(item);
     }
 
+    @GetMapping(value = "/get")
+    public HttpEntity<?> getWithName(@RequestParam(value = "name") String name){
+        List<Client> item = service.getByName(name);
+        return ResponseEntity.ok(item);
+    }
+
 }

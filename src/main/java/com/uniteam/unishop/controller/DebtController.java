@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 import static com.uniteam.unishop.controller.CategoryController.handleValidationExceptions;
@@ -46,5 +47,11 @@ public class DebtController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public static Map<String, String> handleExceptions(MethodArgumentNotValidException e){
         return handleValidationExceptions(e);
+    }
+
+    @GetMapping(value = "/get")
+    public HttpEntity<?> getWithName(@RequestParam(value = "name") String name){
+        List<Output> item = service.getByClientName(name);
+        return ResponseEntity.ok(item);
     }
 }

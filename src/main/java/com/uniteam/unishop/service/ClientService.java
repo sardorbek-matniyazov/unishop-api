@@ -17,4 +17,6 @@ public interface ClientService {
     List<Output> getSales(Long id);
 
     List<PaymentHistory> getPaymentHistory(Long id);
+
+    List<Client> getByName(String name);
 }

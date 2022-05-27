@@ -1,5 +1,6 @@
 package com.uniteam.unishop.controller;
 
+import com.uniteam.unishop.domain.Client;
 import com.uniteam.unishop.domain.Product;
 import com.uniteam.unishop.payload.Status;
 import com.uniteam.unishop.service.serviceImpl.ProductServiceImpl;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.uniteam.unishop.controller.CategoryController.handleValidationExceptions;
@@ -43,5 +45,11 @@ public class ProductController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public static Map<String, String> handleExceptions(MethodArgumentNotValidException e){
         return handleValidationExceptions(e);
+    }
+
+    @GetMapping(value = "/get")
+    public HttpEntity<?> getWithName(@RequestParam(value = "name") String name){
+        List<Product> item = service.getByName(name);
+        return ResponseEntity.ok(item);
     }
 }

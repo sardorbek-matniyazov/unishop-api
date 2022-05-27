@@ -11,4 +11,6 @@ public interface DebtService {
     Output get(Long id);
 
     Status pay(PayDto dto);
+
+    List<Output> getByClientName(String name);
 }

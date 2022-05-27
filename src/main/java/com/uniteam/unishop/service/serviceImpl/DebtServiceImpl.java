@@ -73,5 +73,10 @@ public class DebtServiceImpl implements DebtService {
         return Status.PAYMENT_NOT_FOUNT;
     }
 
+    @Override
+    public List<Output> getByClientName(String name) {
+        return repo.findAllByStatusAndClient_FullNameLike(PaymentStatus.DEBT, name);
+    }
+
 
 }

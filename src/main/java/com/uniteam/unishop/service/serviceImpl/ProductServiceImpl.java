@@ -5,6 +5,10 @@ import com.uniteam.unishop.payload.Status;
 import com.uniteam.unishop.repository.ProductRepo;
 import com.uniteam.unishop.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,5 +37,10 @@ public class ProductServiceImpl implements ProductService {
             e.printStackTrace();
             return Status.CANT_DELETE;
         }
+    }
+
+    @Override
+    public List<Product> getByName(String name) {
+        return repo.findAllByNameLike(name);
     }
 }
