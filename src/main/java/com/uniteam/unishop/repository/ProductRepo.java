@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface ProductRepo extends JpaRepository<Product, Long> {
     Optional<Product> findByName(String name);
 
-    @Query("select p from Product p where p.name like %?1%")
+    @Query("select p from Product p where lower(p.name) like %?1%")
     List<Product> findAllByNameLike(String name);
 }

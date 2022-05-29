@@ -49,7 +49,6 @@ public class ClientController {
         return handleValidationExceptions(e);
     }
 
-
     @GetMapping(value = "/{id}/sales")
     public HttpEntity<?> getSales(@PathVariable Long id){
         List<Output> item = service.getSales(id);
@@ -64,7 +63,7 @@ public class ClientController {
 
     @GetMapping(value = "/get")
     public HttpEntity<?> getWithName(@RequestParam(value = "name") String name){
-        List<Client> item = service.getByName(name);
+        List<Client> item = service.getByName(name.toLowerCase());
         return ResponseEntity.ok(item);
     }
 

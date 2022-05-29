@@ -17,6 +17,6 @@ public interface ClientRepo extends JpaRepository<Client, Long> {
 
     boolean existsByPhoneNumberAndIdNot(String phoneNumber, Long id);
 
-    @Query("select c from Client c where c.fullName like %?1%")
+    @Query("select c from Client c where lower(c.fullName) like %?1%")
     List<Client> findAllByFullNameLike(String fullName);
 }

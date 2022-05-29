@@ -19,6 +19,6 @@ public interface OutputRepo extends JpaRepository<Output, Long> {
     )
     List<Output> findAllByOpenInAndExit(Timestamp openIn, Timestamp exitIn);
 
-    @Query("select o from Output o where o.status = ?1 and o.client.fullName like %?2%")
+    @Query("select o from Output o where o.status = ?1 and lower(o.client.fullName) like %?2%")
     List<Output> findAllByStatusAndClient_FullNameLike(PaymentStatus debt, String name);
 }

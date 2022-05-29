@@ -51,7 +51,7 @@ public class DebtController {
 
     @GetMapping(value = "/get")
     public HttpEntity<?> getWithName(@RequestParam(value = "name") String name){
-        List<Output> item = service.getByClientName(name);
+        List<Output> item = service.getByClientName(name.toLowerCase());
         return ResponseEntity.ok(item);
     }
 }

@@ -1,7 +1,7 @@
 package com.uniteam.unishop.controller;
 
-import com.uniteam.unishop.domain.Client;
 import com.uniteam.unishop.domain.Product;
+import com.uniteam.unishop.payload.ProductDto;
 import com.uniteam.unishop.payload.Status;
 import com.uniteam.unishop.service.serviceImpl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +23,12 @@ public class ProductController {
     private final ProductServiceImpl service;
 
     @GetMapping(value = "/all")
-    public HttpEntity<?> getAll(){
+    public HttpEntity<?> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping(value = "/{id}")
-    public HttpEntity<?> get(@PathVariable Long id){
+    public HttpEntity<?> get(@PathVariable Long id) {
         Product item = service.get(id);
         return item != null ?
                 ResponseEntity.ok(item) :
@@ -36,20 +36,26 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public HttpEntity<?> delete(@PathVariable Long id){
+    public HttpEntity<?> delete(@PathVariable Long id) {
         Status delete = service.delete(id);
         return ResponseEntity.status(delete.getStatus()).body(delete);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public static Map<String, String> handleExceptions(MethodArgumentNotValidException e){
+    public static Map<String, String> handleExceptions(MethodArgumentNotValidException e) {
         return handleValidationExceptions(e);
     }
 
     @GetMapping(value = "/get")
-    public HttpEntity<?> getWithName(@RequestParam(value = "name") String name){
-        List<Product> item = service.getByName(name);
+    public HttpEntity<?> getWithName(@RequestParam(value = "name") String name) {
+        List<Product> item = service.getByName(name.toLowerCase());
         return ResponseEntity.ok(item);
+    }
+
+    @PutMapping(value = "/{id}")
+    public HttpEntity<?> update(@RequestBody ProductDto dto, @PathVariable Long id) {
+        Status delete = service.update(id, dto);
+        return ResponseEntity.status(delete.getStatus()).body(delete);
     }
 }

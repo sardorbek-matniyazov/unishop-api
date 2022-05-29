@@ -1,17 +1,15 @@
 package com.uniteam.unishop.service.serviceImpl;
 
 import com.uniteam.unishop.domain.Product;
+import com.uniteam.unishop.payload.ProductDto;
 import com.uniteam.unishop.payload.Status;
 import com.uniteam.unishop.repository.ProductRepo;
 import com.uniteam.unishop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             repo.deleteById(id);
             return Status.DELETED;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Status.CANT_DELETE;
         }
@@ -42,5 +40,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getByName(String name) {
         return repo.findAllByNameLike(name);
+    }
+
+    @Override
+    public Status update(Long id, ProductDto dto) {
+        Optional<Product> byId = repo.findById(id);
+        if (byId.isPresent()) {
+            Product product = byId.get();
+            product.setQuantity(dto.getQuantity());
+            product.setMaximumPrice(dto.getMaximumPrice());
+            product.setMinimumPrice(dto.getMinimumPrice());
+            product.setPrice(dto.getPrice());
+            repo.save(product);
+            return Status.SUCCESS_UPDATE;
+        }
+        return Status.ITEM_NOT_FOUND;
     }
 }

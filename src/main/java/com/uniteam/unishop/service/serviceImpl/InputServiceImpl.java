@@ -36,6 +36,9 @@ public class InputServiceImpl implements InputService {
 
     @Override
     public Status create(ProductDto dto) {
+
+        // TODO : yana product qo'shilsa senasin o'zgertiw
+
         Optional<Category> byCategoryId = categoryRepo.findById(dto.getCategoryId());
         if (byCategoryId.isPresent()) {
             Category category = byCategoryId.get();
